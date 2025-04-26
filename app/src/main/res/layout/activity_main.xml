@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D6E2FD"
+    tools:context=".MainActivity">
+
+    <!-- Hearts layout - Top right corner -->
+    <LinearLayout
+        android:id="@+id/livesLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/heart1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_heart"
+            android:contentDescription="@null" />
+
+        <ImageView
+            android:id="@+id/heart2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_heart"
+            android:contentDescription="@null" />
+
+        <ImageView
+            android:id="@+id/heart3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_heart"
+            android:contentDescription="@null" />
+    </LinearLayout>
+
+    <GridLayout
+        android:id="@+id/gameGrid"
+        android:layout_below="@id/livesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginTop="32dp"
+        android:layout_above="@+id/controlsLayout"
+        android:columnCount="3"
+        android:rowCount="7">
+
+        <!-- ROW 0 -->
+        <ImageView android:id="@+id/cell_0_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_0_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_0_2" style="@style/GameCell" android:contentDescription="@null"/>
+
+        <!-- ROW 1 -->
+        <ImageView android:id="@+id/cell_1_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_1_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_1_2" style="@style/GameCell" android:contentDescription="@null"/>
+
+        <!-- ROW 2 -->
+        <ImageView android:id="@+id/cell_2_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_2_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_2_2" style="@style/GameCell" android:contentDescription="@null"/>
+
+        <!-- ROW 3 -->
+        <ImageView android:id="@+id/cell_3_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_3_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_3_2" style="@style/GameCell" android:contentDescription="@null"/>
+
+        <!-- ROW 4 -->
+        <ImageView android:id="@+id/cell_4_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_4_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_4_2" style="@style/GameCell" android:contentDescription="@null"/>
+
+        <!-- ROW 5 -->
+        <ImageView android:id="@+id/cell_5_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_5_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_5_2" style="@style/GameCell" android:contentDescription="@null"/>
+
+        <!-- ROW 6 (Player row) -->
+        <ImageView android:id="@+id/cell_6_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_6_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/cell_6_2" style="@style/GameCell" android:contentDescription="@null"/>
+
+    </GridLayout>
+
+    <!-- Bottom controls - Left and Right buttons spaced apart -->
+    <LinearLayout
+        android:id="@+id/controlsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="28dp"
+        android:paddingHorizontal="32dp">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/leftBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_left"
+            android:contentDescription="@string/move_left"
+            app:backgroundTint="@color/design_default_color_primary" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/rightBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_right"
+            android:contentDescription="@string/move_right"
+            app:backgroundTint="@color/design_default_color_primary" />
+    </LinearLayout>
+</RelativeLayout>
