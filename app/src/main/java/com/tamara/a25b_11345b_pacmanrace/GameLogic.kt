@@ -38,7 +38,6 @@ class GameLogic(private val rows: Int = 7, private val cols: Int = 3) {
         generateObstacle = !generateObstacle
     }
 
-
     fun checkCollision(): Boolean {
         return obstacleMatrix[rows - 1][playerCol] == 1
     }

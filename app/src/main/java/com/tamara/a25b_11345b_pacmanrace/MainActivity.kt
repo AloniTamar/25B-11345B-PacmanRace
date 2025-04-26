@@ -7,7 +7,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.os.CountDownTimer
 import com.tamara.a25b_11345b_pacmanrace.utilities.SignalManager
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var gameLogic: GameLogic
@@ -16,8 +15,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rightBtn: FloatingActionButton
     private lateinit var gameTimer: CountDownTimer
     private var lives = 3
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,6 +127,4 @@ class MainActivity : AppCompatActivity() {
         updateHeartsUI()
         gameLogic.resetGame()
     }
-
-
 }

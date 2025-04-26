@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_left"
             android:contentDescription="@string/move_left"
-            app:backgroundTint="@color/design_default_color_primary" />
+            app:backgroundTint="@color/purple_300" />
 
         <Space
             android:layout_width="0dp"
@@ -120,6 +120,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_right"
             android:contentDescription="@string/move_right"
-            app:backgroundTint="@color/design_default_color_primary" />
+            app:backgroundTint="@color/purple_300" />
     </LinearLayout>
 </RelativeLayout>
