@@ -171,17 +171,11 @@ class MainActivity : AppCompatActivity() {
             lives--
             updateHeartsUI()
             gameLogic?.resetBottomRow()
-
-            val msg = if (lives == 0) {
-                "Game Over! Restarting..."
-            } else {
-                "Ouch! You hit a ghost!"
-            }
-
-            SignalManager.getInstance().toast(msg)
             SignalManager.getInstance().vibrate()
 
             if (lives == 0) {
+                SignalManager.getInstance().toast("Game Over! Restarting...")
+
                 gameLogic?.setGenerateObstacles(false)
 
                 gameLogic?.resetGame()
@@ -189,12 +183,14 @@ class MainActivity : AppCompatActivity() {
 
                 grid?.get(0)?.get(0)?.postDelayed({
                     resetGame()
-
+                    drawPlayer()
                     gameLogic?.setGenerateObstacles(true)
-                }, 2000)
-
-                SignalManager.getInstance().toast("New Game Started!")
+                    SignalManager.getInstance().toast("New Game Started!")
+                }, 2100)
+            } else {
+                SignalManager.getInstance().toast("Ouch! You hit a ghost! Lives left: $lives")
             }
         }
     }
+
 }
