@@ -2,107 +2,109 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainLayout"
+    android:id="@+id/main_LAY_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D6E2FD"
+    android:background="@color/background_soft_blue"
     tools:context=".MainActivity">
 
     <!-- Hearts layout - Top right corner -->
     <LinearLayout
-        android:id="@+id/livesLayout"
+        android:id="@+id/main_LAY_lives"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/heart1"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/main_IMG_heart1"
+            android:layout_width="@dimen/heart_size"
+            android:layout_height="@dimen/heart_size"
             android:src="@drawable/ic_heart"
             android:contentDescription="@null" />
 
         <ImageView
-            android:id="@+id/heart2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
+            android:id="@+id/main_IMG_heart2"
+            android:layout_width="@dimen/heart_size"
+            android:layout_height="@dimen/heart_size"
+            android:layout_marginStart="@dimen/heart_spacing"
             android:src="@drawable/ic_heart"
             android:contentDescription="@null" />
 
         <ImageView
-            android:id="@+id/heart3"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
+            android:id="@+id/main_IMG_heart3"
+            android:layout_width="@dimen/heart_size"
+            android:layout_height="@dimen/heart_size"
+            android:layout_marginStart="@dimen/heart_spacing"
             android:src="@drawable/ic_heart"
             android:contentDescription="@null" />
     </LinearLayout>
 
     <GridLayout
-        android:id="@+id/gameGrid"
-        android:layout_below="@id/livesLayout"
+        android:id="@+id/main_GRID_game"
+        android:layout_below="@id/main_LAY_lives"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:layout_marginTop="32dp"
-        android:layout_above="@+id/controlsLayout"
+        android:layout_height="@dimen/game_grid_height"
+        android:paddingStart="@dimen/button_padding_horizontal"
+        android:paddingEnd="@dimen/button_padding_horizontal"
+        android:layout_above="@+id/main_LAY_controls"
         android:columnCount="3"
         android:rowCount="7">
 
         <!-- ROW 0 -->
-        <ImageView android:id="@+id/cell_0_0" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_0_1" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_0_2" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_0_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_0_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_0_2" style="@style/GameCell" android:contentDescription="@null"/>
 
         <!-- ROW 1 -->
-        <ImageView android:id="@+id/cell_1_0" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_1_1" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_1_2" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_1_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_1_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_1_2" style="@style/GameCell" android:contentDescription="@null"/>
 
         <!-- ROW 2 -->
-        <ImageView android:id="@+id/cell_2_0" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_2_1" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_2_2" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_2_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_2_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_2_2" style="@style/GameCell" android:contentDescription="@null"/>
 
         <!-- ROW 3 -->
-        <ImageView android:id="@+id/cell_3_0" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_3_1" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_3_2" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_3_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_3_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_3_2" style="@style/GameCell" android:contentDescription="@null"/>
 
         <!-- ROW 4 -->
-        <ImageView android:id="@+id/cell_4_0" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_4_1" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_4_2" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_4_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_4_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_4_2" style="@style/GameCell" android:contentDescription="@null"/>
 
         <!-- ROW 5 -->
-        <ImageView android:id="@+id/cell_5_0" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_5_1" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_5_2" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_5_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_5_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_5_2" style="@style/GameCell" android:contentDescription="@null"/>
 
         <!-- ROW 6 (Player row) -->
-        <ImageView android:id="@+id/cell_6_0" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_6_1" style="@style/GameCell" android:contentDescription="@null"/>
-        <ImageView android:id="@+id/cell_6_2" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_6_0" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_6_1" style="@style/GameCell" android:contentDescription="@null"/>
+        <ImageView android:id="@+id/main_IMG_cell_6_2" style="@style/GameCell" android:contentDescription="@null"/>
 
     </GridLayout>
 
     <!-- Bottom controls - Left and Right buttons spaced apart -->
     <LinearLayout
-        android:id="@+id/controlsLayout"
+        android:id="@+id/main_LAY_controls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginBottom="28dp"
-        android:paddingHorizontal="32dp">
+        android:layout_marginBottom="@dimen/bottom_margin_controls"
+        android:paddingStart="@dimen/button_padding_horizontal"
+        android:paddingEnd="@dimen/button_padding_horizontal">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/leftBtn"
+            android:id="@+id/main_IMG_leftBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_left"
@@ -115,7 +117,7 @@
             android:layout_weight="1" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/rightBtn"
+            android:id="@+id/main_IMG_rightBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_right"

@@ -15,6 +15,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rightBtn: FloatingActionButton
     private lateinit var gameTimer: CountDownTimer
     private var lives = 3
+    companion object {
+        private const val NUM_ROWS = 7
+        private const val NUM_COLS = 3
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,46 +27,22 @@ class MainActivity : AppCompatActivity() {
         SignalManager.init(this)
 
         gameLogic = GameLogic()
-
-        leftBtn = findViewById(R.id.leftBtn)
-        rightBtn = findViewById(R.id.rightBtn)
-
-        grid = Array(7) { row ->
-            Array(3) { col ->
-                val cellId = resources.getIdentifier("cell_${row}_${col}", "id", packageName)
-                findViewById(cellId)
-            }
-        }
-
-        drawPlayer()
-
-        leftBtn.setOnClickListener {
-            clearPlayer()
-            gameLogic.moveLeft()
-            drawPlayer()
-        }
-
-        rightBtn.setOnClickListener {
-            clearPlayer()
-            gameLogic.moveRight()
-            drawPlayer()
-        }
-
-        startGameLoop()
-
+        findViews()
+        initListeners()
+        startGame()
     }
 
     private fun drawPlayer() {
         val col = gameLogic.getPlayerColumn()
-        grid[6][col].setImageResource(R.drawable.ic_pacman)
+        grid[NUM_ROWS - 1][col].setImageResource(R.drawable.ic_pacman)
     }
 
     private fun clearPlayer() {
         val col = gameLogic.getPlayerColumn()
-        grid[6][col].setImageDrawable(null)
+        grid[NUM_ROWS - 1][col].setImageDrawable(null)
     }
 
-    private fun startGameLoop() {
+    private fun startGame() {
         gameTimer = object : CountDownTimer(Long.MAX_VALUE, 700) {
             override fun onTick(millisUntilFinished: Long) {
                 gameLogic.updateObstacles()
@@ -98,8 +78,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun drawObstacles() {
         val matrix = gameLogic.getObstacleMatrix()
-        for (row in 0..6) {
-            for (col in 0..2) {
+        for (row in 0..NUM_ROWS - 1) {
+            for (col in 0..NUM_COLS - 1) {
                 if (matrix[row][col] == 1) {
                     grid[row][col].setImageResource(R.drawable.ic_game)
                 } else {
@@ -112,9 +92,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateHeartsUI() {
         val hearts = listOf(
-            findViewById<ImageView>(R.id.heart1),
-            findViewById<ImageView>(R.id.heart2),
-            findViewById<ImageView>(R.id.heart3)
+            findViewById<ImageView>(R.id.main_IMG_heart1),
+            findViewById<ImageView>(R.id.main_IMG_heart2),
+            findViewById<ImageView>(R.id.main_IMG_heart3)
         )
 
         for (i in hearts.indices) {
@@ -126,5 +106,31 @@ class MainActivity : AppCompatActivity() {
         lives = 3
         updateHeartsUI()
         gameLogic.resetGame()
+    }
+
+    private fun findViews() {
+        leftBtn = findViewById(R.id.main_IMG_leftBtn)
+        rightBtn = findViewById(R.id.main_IMG_rightBtn)
+
+        grid = Array(NUM_ROWS) { row ->
+            Array(NUM_COLS) { col ->
+                val cellId = resources.getIdentifier("main_IMG_cell_${row}_${col}", "id", packageName)
+                findViewById(cellId)
+            }
+        }
+    }
+
+    private fun initListeners() {
+        leftBtn.setOnClickListener {
+            clearPlayer()
+            gameLogic.moveLeft()
+            drawPlayer()
+        }
+
+        rightBtn.setOnClickListener {
+            clearPlayer()
+            gameLogic.moveRight()
+            drawPlayer()
+        }
     }
 }
