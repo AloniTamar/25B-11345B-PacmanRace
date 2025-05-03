@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.GridLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.os.CountDownTimer
+import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import com.tamara.a25b_11345b_pacmanrace.utilities.SignalManager
 
@@ -44,14 +45,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun drawPlayer() {
         val col = gameLogic?.getPlayerColumn() ?: return
-        grid?.get(NUM_ROWS - 1)?.get(col)?.setImageResource(R.drawable.ic_pacman)
+        val playerCell = grid?.get(NUM_ROWS - 1)?.getOrNull(col) ?: return
+
+        playerCell.setBackgroundResource(R.drawable.ic_pacman)
+        playerCell.visibility = View.VISIBLE
     }
 
 
     private fun clearPlayer() {
         val col = gameLogic?.getPlayerColumn() ?: return
-        val row = NUM_ROWS - 1
-        grid?.getOrNull(row)?.getOrNull(col)?.setImageDrawable(null)
+        val playerCell = grid?.get(NUM_ROWS - 1)?.getOrNull(col) ?: return
+
+        playerCell.setBackgroundResource(R.drawable.ic_game)
+        playerCell.visibility = View.INVISIBLE
     }
 
 
@@ -76,16 +82,13 @@ class MainActivity : AppCompatActivity() {
         for (row in 0 until NUM_ROWS) {
             for (col in 0 until NUM_COLS) {
                 val imageView = grid?.getOrNull(row)?.getOrNull(col) ?: continue
-                if (matrix[row][col] == 1) {
-                    imageView.setImageResource(R.drawable.ic_game)
-                } else {
-                    imageView.setImageDrawable(null)
-                }
+                imageView.visibility = if (matrix[row][col] == 1) View.VISIBLE else View.INVISIBLE
             }
         }
 
         drawPlayer()
     }
+
 
 
     private fun updateHeartsUI() {
@@ -106,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         gameLogic?.resetGame()
     }
 
-    private fun findViews() { // setup the grid
+    private fun findViews() {
         leftBtn = findViewById(R.id.main_IMG_leftBtn)
         rightBtn = findViewById(R.id.main_IMG_rightBtn)
 
@@ -132,11 +135,15 @@ class MainActivity : AppCompatActivity() {
                 imageView.scaleType = ImageView.ScaleType.FIT_CENTER
                 imageView.setPadding(PADDING, PADDING, PADDING, PADDING)
 
+                imageView.setBackgroundResource(R.drawable.ic_game)
+                imageView.visibility = ImageView.INVISIBLE
+
                 gridLayout.addView(imageView)
                 imageView
             }
         }
     }
+
 
     private fun initViews() {
         drawPlayer()
@@ -166,12 +173,28 @@ class MainActivity : AppCompatActivity() {
             gameLogic?.resetBottomRow()
 
             val msg = if (lives == 0) {
-                "Game Over!"
+                "Game Over! Restarting..."
             } else {
                 "Ouch! You hit a ghost!"
             }
+
             SignalManager.getInstance().toast(msg)
             SignalManager.getInstance().vibrate()
+
+            if (lives == 0) {
+                gameLogic?.setGenerateObstacles(false)
+
+                gameLogic?.resetGame()
+                drawObstacles()
+
+                grid?.get(0)?.get(0)?.postDelayed({
+                    resetGame()
+
+                    gameLogic?.setGenerateObstacles(true)
+                }, 2000)
+
+                SignalManager.getInstance().toast("New Game Started!")
+            }
         }
     }
 }

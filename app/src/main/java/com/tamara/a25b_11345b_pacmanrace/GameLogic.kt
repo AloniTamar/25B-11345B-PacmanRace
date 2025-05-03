@@ -6,6 +6,7 @@ class GameLogic(private val rows: Int = 7, private val cols: Int = 3) {
 
     private val obstacleMatrix: Array<IntArray> = Array(rows) { IntArray(cols) { 0 } }
     private var generateObstacle = true
+    private var generateObstacles = true
 
     companion object {
         private var PLAYER_COL = 1
@@ -24,6 +25,7 @@ class GameLogic(private val rows: Int = 7, private val cols: Int = 3) {
     }
 
     fun updateObstacles() {
+        if (!generateObstacles) return
         for (row in rows - 2 downTo 0) {
             for (col in 0 until cols) {
                 obstacleMatrix[row + 1][col] = obstacleMatrix[row][col]
@@ -58,5 +60,8 @@ class GameLogic(private val rows: Int = 7, private val cols: Int = 3) {
                 obstacleMatrix[row][col] = 0
             }
         }
+    }
+    fun setGenerateObstacles(enabled: Boolean) {
+        generateObstacles = enabled
     }
 }
