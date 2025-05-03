@@ -5,19 +5,22 @@ import kotlin.random.Random
 class GameLogic(private val rows: Int = 7, private val cols: Int = 3) {
 
     private val obstacleMatrix: Array<IntArray> = Array(rows) { IntArray(cols) { 0 } }
-    private var playerCol = 1
     private var generateObstacle = true
 
-    fun getPlayerColumn(): Int = playerCol
+    companion object {
+        private var PLAYER_COL = 1
+    }
+
+    fun getPlayerColumn(): Int = PLAYER_COL
 
     fun getObstacleMatrix(): Array<IntArray> = obstacleMatrix.map { it.clone() }.toTypedArray()
 
     fun moveLeft() {
-        if (playerCol > 0) playerCol--
+        if (PLAYER_COL > 0) PLAYER_COL--
     }
 
     fun moveRight() {
-        if (playerCol < cols - 1) playerCol++
+        if (PLAYER_COL < cols - 1) PLAYER_COL++
     }
 
     fun updateObstacles() {
@@ -39,7 +42,7 @@ class GameLogic(private val rows: Int = 7, private val cols: Int = 3) {
     }
 
     fun checkCollision(): Boolean {
-        return obstacleMatrix[rows - 1][playerCol] == 1
+        return obstacleMatrix[rows - 1][PLAYER_COL] == 1
     }
 
     fun resetBottomRow() {
@@ -49,7 +52,7 @@ class GameLogic(private val rows: Int = 7, private val cols: Int = 3) {
     }
 
     fun resetGame() {
-        playerCol = 1
+        PLAYER_COL = 1
         for (row in 0 until rows) {
             for (col in 0 until cols) {
                 obstacleMatrix[row][col] = 0

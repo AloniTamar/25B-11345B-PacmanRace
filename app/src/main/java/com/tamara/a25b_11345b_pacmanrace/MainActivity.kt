@@ -3,21 +3,26 @@ package com.tamara.a25b_11345b_pacmanrace
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
+import android.widget.GridLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.os.CountDownTimer
+import androidx.appcompat.widget.AppCompatImageView
 import com.tamara.a25b_11345b_pacmanrace.utilities.SignalManager
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var gameLogic: GameLogic
-    private lateinit var grid: Array<Array<ImageView>>
-    private lateinit var leftBtn: FloatingActionButton
-    private lateinit var rightBtn: FloatingActionButton
-    private lateinit var gameTimer: CountDownTimer
+    private var gameLogic: GameLogic? = null
+    private var grid: Array<Array<ImageView>>? = null
+    private var leftBtn: FloatingActionButton? = null
+    private var rightBtn: FloatingActionButton? = null
+    private var gameTimer: CountDownTimer? = null
     private var lives = 3
+
     companion object {
         private const val NUM_ROWS = 7
         private const val NUM_COLS = 3
+        private const val MARGINS = 16
+        private const val PADDING = 8
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,44 +31,35 @@ class MainActivity : AppCompatActivity() {
 
         SignalManager.init(this)
 
-        gameLogic = GameLogic()
+        gameLogic = GameLogic(
+            cols = NUM_COLS,
+            rows = NUM_ROWS
+        )
         findViews()
+        initViews()
         initListeners()
         startGame()
     }
 
+
     private fun drawPlayer() {
-        val col = gameLogic.getPlayerColumn()
-        grid[NUM_ROWS - 1][col].setImageResource(R.drawable.ic_pacman)
+        val col = gameLogic?.getPlayerColumn() ?: return
+        grid?.get(NUM_ROWS - 1)?.get(col)?.setImageResource(R.drawable.ic_pacman)
     }
+
 
     private fun clearPlayer() {
-        val col = gameLogic.getPlayerColumn()
-        grid[NUM_ROWS - 1][col].setImageDrawable(null)
+        val col = gameLogic?.getPlayerColumn() ?: return
+        val row = NUM_ROWS - 1
+        grid?.getOrNull(row)?.getOrNull(col)?.setImageDrawable(null)
     }
 
+
     private fun startGame() {
-        gameTimer = object : CountDownTimer(Long.MAX_VALUE, 700) {
+        gameTimer = object : CountDownTimer(Long.MAX_VALUE, 500) {
             override fun onTick(millisUntilFinished: Long) {
-                gameLogic.updateObstacles()
-
-                if (gameLogic.checkCollision()) {
-                    SignalManager.getInstance().vibrate()
-                    SignalManager.getInstance().toast("Ouch! You hit a ghost!")
-
-                    lives--
-                    updateHeartsUI()
-                    gameLogic.resetBottomRow()
-
-                    if (lives == 0) {
-                        grid[0][0].postDelayed({
-                            SignalManager.getInstance().vibrate()
-                            SignalManager.getInstance().toast("Game Over!")
-                            resetGame()
-                        }, 1000)
-                    }
-                }
-
+                gameLogic?.updateObstacles()
+                checkPlayerCollision()
                 drawObstacles()
             }
 
@@ -71,24 +67,26 @@ class MainActivity : AppCompatActivity() {
                 // TBD in the future
             }
         }
-
-        gameTimer.start()
+        gameTimer?.start()
     }
 
-
     private fun drawObstacles() {
-        val matrix = gameLogic.getObstacleMatrix()
-        for (row in 0..NUM_ROWS - 1) {
-            for (col in 0..NUM_COLS - 1) {
+        val matrix = gameLogic?.getObstacleMatrix() ?: return
+
+        for (row in 0 until NUM_ROWS) {
+            for (col in 0 until NUM_COLS) {
+                val imageView = grid?.getOrNull(row)?.getOrNull(col) ?: continue
                 if (matrix[row][col] == 1) {
-                    grid[row][col].setImageResource(R.drawable.ic_game)
+                    imageView.setImageResource(R.drawable.ic_game)
                 } else {
-                    grid[row][col].setImageDrawable(null)
+                    imageView.setImageDrawable(null)
                 }
             }
         }
+
         drawPlayer()
     }
+
 
     private fun updateHeartsUI() {
         val hearts = listOf(
@@ -105,32 +103,75 @@ class MainActivity : AppCompatActivity() {
     private fun resetGame() {
         lives = 3
         updateHeartsUI()
-        gameLogic.resetGame()
+        gameLogic?.resetGame()
     }
 
-    private fun findViews() {
+    private fun findViews() { // setup the grid
         leftBtn = findViewById(R.id.main_IMG_leftBtn)
         rightBtn = findViewById(R.id.main_IMG_rightBtn)
 
+        val gridLayout = findViewById<GridLayout>(R.id.main_GRID_game)
+        gridLayout.removeAllViews()
+        gridLayout.rowCount = NUM_ROWS
+        gridLayout.columnCount = NUM_COLS
+
         grid = Array(NUM_ROWS) { row ->
             Array(NUM_COLS) { col ->
-                val cellId = resources.getIdentifier("main_IMG_cell_${row}_${col}", "id", packageName)
-                findViewById(cellId)
+                val imageView = AppCompatImageView(this)
+
+                val params = GridLayout.LayoutParams(
+                    GridLayout.spec(row, 1f),
+                    GridLayout.spec(col, 1f)
+                ).apply {
+                    width = 0
+                    height = 0
+                    setMargins(MARGINS, MARGINS, MARGINS, MARGINS)
+                }
+
+                imageView.layoutParams = params
+                imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+                imageView.setPadding(PADDING, PADDING, PADDING, PADDING)
+
+                gridLayout.addView(imageView)
+                imageView
             }
         }
     }
 
+    private fun initViews() {
+        drawPlayer()
+        updateHeartsUI()
+    }
+
     private fun initListeners() {
-        leftBtn.setOnClickListener {
+        leftBtn?.setOnClickListener {
             clearPlayer()
-            gameLogic.moveLeft()
+            gameLogic?.moveLeft()
             drawPlayer()
+            checkPlayerCollision()
         }
 
-        rightBtn.setOnClickListener {
+        rightBtn?.setOnClickListener {
             clearPlayer()
-            gameLogic.moveRight()
+            gameLogic?.moveRight()
             drawPlayer()
+            checkPlayerCollision()
+        }
+    }
+
+    private fun checkPlayerCollision() {
+        if (gameLogic?.checkCollision() == true) {
+            lives--
+            updateHeartsUI()
+            gameLogic?.resetBottomRow()
+
+            val msg = if (lives == 0) {
+                "Game Over!"
+            } else {
+                "Ouch! You hit a ghost!"
+            }
+            SignalManager.getInstance().toast(msg)
+            SignalManager.getInstance().vibrate()
         }
     }
 }
